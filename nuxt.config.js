@@ -145,16 +145,12 @@ export default {
   /*
    ** Global CSS
    */
-  css: [
-    '~/assets/css/global.scss'
-  ],
+  css: ['~/assets/css/global.scss'],
 
   /*
    ** Plugins to load before mounting the App
    */
-  plugins: [
-    { src: '~/plugins/install-notify', mode: 'client' }
-  ],
+  plugins: [{ src: '~/plugins/install-notify', mode: 'client' }],
 
   /*
    ** Nuxt.js modules
