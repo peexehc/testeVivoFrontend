@@ -3,12 +3,14 @@
     <div class="container-fluid wrap">
       <div v-for="repo in repositoryList" :key="repo.id" class="row repos">
         <div class="col-6 repo-name">
-          <div class="box">
-            <p class="name m-0">{{ repo.name }}</p>
-            <p v-if="repo.description !== null" class="desc m-0">
-              {{ repo.description }}
-            </p>
-          </div>
+          <router-link :to="{ path: `/repositorio/${repo.name}` }" tag="a">
+            <div class="box">
+              <p class="name m-0">{{ repo.name }}</p>
+              <p v-if="repo.description !== null" class="desc m-0">
+                {{ repo.description }}
+              </p>
+            </div>
+          </router-link>
         </div>
         <div class="col-6 repo-infos">
           <div class="box">
@@ -61,7 +63,7 @@ export default {
     }
   },
 
-  async asyncData({ store, $axios }) {
+  async asyncData({ $axios }) {
     let repos = null
 
     const data = await $axios.$get(

@@ -47,15 +47,6 @@ export default {
 </script>
 
 <style lang="scss">
-html {
-  overflow-x: hidden;
-}
-html,
-body {
-  height: 100%;
-  width: 100%;
-  background-color: white;
-}
 .main-component {
   position: relative;
   min-height: 100vh;
@@ -65,25 +56,5 @@ body {
 }
 .content {
   flex: auto;
-}
-::-webkit-scrollbar {
-  width: 5px;
-}
-::-webkit-scrollbar-track {
-  -webkit-box-shadow: inset 0 0 5px rgba(0, 0, 0, 0.5);
-  box-shadow: inset 0 0 5px rgba(0, 0, 0, 0.5);
-  -webkit-border-radius: 0px;
-  border-radius: 0px;
-  background: white;
-}
-::-webkit-scrollbar-thumb {
-  -webkit-border-radius: 0px;
-  border-radius: 5px;
-  background: var(--dark);
-  -webkit-box-shadow: inset 0 0 5px rgba(0, 0, 0, 0.5);
-  box-shadow: inset 0 0 5px rgba(0, 0, 0, 0.5);
-}
-::-webkit-scrollbar-thumb:window-inactive {
-  background: rgba(0, 0, 0, 0.5);
 }
 </style>

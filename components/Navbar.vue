@@ -22,7 +22,12 @@
               ></path>
             </svg>
           </a>
-          <h1 class="m-0">Lista de repositórios - globocom</h1>
+          <h1 v-if="$route.name === 'Home'" class="m-0">
+            Lista de repositórios - globocom
+          </h1>
+          <h1 v-if="$route.name === 'Repository'" class="m-0">
+            globocom/{{ $route.params.name }}
+          </h1>
         </div>
       </div>
     </nav>
@@ -58,8 +63,7 @@ header {
           margin-right: 10px;
         }
         h1 {
-          font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto,
-            Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+          font-family: 'Roboto', sans-serif;
           font-size: 26px;
         }
       }
