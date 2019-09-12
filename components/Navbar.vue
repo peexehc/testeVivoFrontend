@@ -1,6 +1,13 @@
 <template>
   <header>
     <nav>
+      <span
+        v-if="$route.name === 'Repository'"
+        class="go-back"
+        @click="$router.back()"
+      >
+        <i class="fas fa-arrow-left"></i>
+      </span>
       <div class="row title">
         <div class="col-12 d-flex text-center">
           <a
@@ -57,8 +64,26 @@ header {
   z-index: 999;
 
   nav {
+    position: relative;
+    width: 100%;
+
+    .go-back {
+      position: absolute;
+      left: 20px;
+      top: 5px;
+      font-size: 20px;
+      line-height: 1;
+      z-index: 999;
+
+      i {
+        color: var(--dark);
+      }
+    }
+
     .title {
       .col-12 {
+        justify-content: center;
+
         a {
           margin-right: 10px;
         }
