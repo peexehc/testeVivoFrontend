@@ -1,70 +1,255 @@
 <template>
   <section id="respositoryList">
-    <div class="container-fluid">
-      <div class="row title reset-row">
-        <div class="col-12 text-center">
-          <h1 class="mt-3 mb-3">Lista de repositórios</h1>
-        </div>
-      </div>
-      <div
-        v-for="repo in repositoryList"
-        :key="repo.id"
-        class="row repos reset-row"
-      >
+    <div class="container-fluid wrap">
+      <div v-for="repo in repositoryList" :key="repo.id" class="row repos">
         <div class="col-6 repo-name">
           <div class="box">
             <p class="name m-0">{{ repo.name }}</p>
-            <p class="desc m-0">{{ repo.description }}</p>
+            <p v-if="repo.description !== null" class="desc m-0">
+              {{ repo.description }}
+            </p>
           </div>
         </div>
         <div class="col-6 repo-infos">
           <div class="box">
             <p class="info m-0">
-              {{ repo.stargazers_count }}
-            </p>
-            <p class="info m-0">
-              {{ repo.forks_count }}
+              <span class="stars">
+                <i class="fas fa-star"></i>{{ repo.stargazers_count }}
+              </span>
+              <span class="forks">
+                <i class="fas fa-code-branch"></i>{{ repo.forks_count }}
+              </span>
+              <span class="language">
+                {{ repo.language }}
+              </span>
             </p>
           </div>
         </div>
       </div>
+
+      <div v-if="loading" class="row loading">
+        <div class="col-12 text-center"></div>
+      </div>
+
+      <footer>
+        <nav>
+          <button v-if="!lastPage && !loading" @click="loadMore()">
+            Carregar mais
+          </button>
+          <img
+            v-else-if="loading"
+            src="/img/loading.svg"
+            height="30"
+            alt="Carregando"
+          />
+          <button v-else disabled="disabled">Fim dos repositórios</button>
+        </nav>
+      </footer>
     </div>
   </section>
 </template>
 <script>
+import axios from 'axios'
+
 export default {
   data() {
     return {
-      repositoryList: []
+      repositoryList: [],
+      nextPage: 2,
+      lastPage: false,
+      loading: false
     }
   },
 
   async asyncData({ store, $axios }) {
-    // const talentsGetter = store.getters['talents/getTalents']
     let repos = null
 
-    // if (talentsGetter === null) {
     const data = await $axios.$get(
       'https://api.github.com/orgs/globocom/repos',
       {
-        headers: {
-          Accept: 'application/vnd.github.v3+json',
-          'User-Agent': 'peexehc',
-          'Access-Control-Allow-Origin': '*',
-          'Access-Control-Expose-Headers':
-            'ETag, Link, X-GitHub-OTP, X-RateLimit-Limit, X-RateLimit-Remaining, X-RateLimit-Reset, X-OAuth-Scopes, X-Accepted-OAuth-Scopes, X-Poll-Interval'
-        }
+        params: { page: 1, per_page: 100 }
       }
     )
 
-    // store.commit('talents/SET_TALENTS', data)
     repos = data
-    // } else {
-    //   talents = talentsGetter
-    // }
 
     return { repositoryList: repos }
+  },
+
+  async mounted() {
+    const orderedRepos = await this.repositoryList.sort(function(a, b) {
+      return b.stargazers_count - a.stargazers_count
+    })
+
+    this.repositoryList = orderedRepos
+  },
+
+  methods: {
+    loadMore() {
+      this.loading = true
+
+      axios
+        .get('https://api.github.com/orgs/globocom/repos', {
+          params: { page: this.nextPage, per_page: 100 }
+        })
+        .then(response => {
+          if (response.data.length >= 1) {
+            response.data.forEach(repository => {
+              this.repositoryList.push(repository)
+            })
+
+            this.nextPage += 1
+
+            setTimeout(() => {
+              this.loading = false
+            }, 100)
+          } else {
+            this.lastPage = true
+
+            setTimeout(() => {
+              this.loading = false
+            }, 100)
+          }
+        })
+        .catch(error => {
+          // eslint-disable-next-line no-console
+          console.log(error)
+        })
+    }
   }
 }
 </script>
-<style lang="scss"></style>
+
+<style lang="scss">
+#respositoryList {
+  margin-top: 80px;
+
+  .wrap {
+    display: flex;
+    flex-direction: column;
+    position: relative;
+
+    .repos {
+      display: flex;
+      flex-direction: row;
+      flex-wrap: wrap;
+      justify-content: center;
+      align-items: stretch;
+      align-content: stretch;
+      min-height: 70px;
+      transition: all 0.25s ease;
+
+      &:hover {
+        .repo-name,
+        .repo-infos {
+          background: var(--strongGrey);
+        }
+
+        .repo-infos {
+          .box {
+            .info {
+              span {
+                color: white;
+
+                i {
+                  color: white;
+                }
+              }
+            }
+          }
+        }
+      }
+
+      .repo-name,
+      .repo-infos {
+        transition: all 0.25s ease;
+
+        .box {
+          display: flex;
+          flex-direction: column;
+          justify-content: center;
+          -webkit-box-shadow: 5px 4px 10px 0px rgba(0, 0, 0, 0.45);
+          -moz-box-shadow: 5px 4px 10px 0px rgba(0, 0, 0, 0.45);
+          box-shadow: 5px 4px 10px 0px rgba(0, 0, 0, 0.45);
+          padding: 10px 10px;
+          height: 100%;
+          p {
+          }
+        }
+      }
+
+      .repo-name {
+        background: #3498db;
+        padding: 0;
+        text-align: center;
+        .box {
+          p.name {
+            font-size: 16px;
+            color: white;
+          }
+          p.desc {
+            font-size: 14px;
+            color: rgba(255, 255, 255, 0.5);
+          }
+        }
+      }
+      .repo-infos {
+        background: white;
+        padding: 0;
+        text-align: center;
+
+        .box {
+          p {
+            span.stars,
+            span.forks,
+            span.language {
+              padding: 0 5px;
+              color: var(--dark);
+
+              i {
+                margin-right: 3px;
+                color: var(--dark);
+              }
+            }
+          }
+        }
+      }
+    }
+
+    footer {
+      position: absolute;
+      display: flex;
+      justify-content: center;
+      width: 100%;
+      height: 50px;
+      bottom: -50px;
+      left: 0;
+      background: var(--dark);
+
+      nav {
+        display: flex;
+        align-items: center;
+
+        button {
+          border: 1px solid white;
+          background: white;
+          color: var(--dark);
+          transition: var(--defaultTransition);
+          font-weight: 500;
+
+          &:hover {
+            background: var(--success);
+            color: white;
+          }
+        }
+        button[disabled='disabled'] {
+          cursor: not-allowed;
+          pointer-events: none;
+          background: #ddd;
+          color: var(--strongGrey);
+        }
+      }
+    }
+  }
+}
+</style>

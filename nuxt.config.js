@@ -18,7 +18,7 @@ export default {
       { name: 'viewport', content: 'width=device-width, initial-scale=1' },
       { name: 'robots', content: 'index, follow' },
       { name: 'apple-mobile-web-app-capable', content: 'yes' },
-      { name: 'theme-color', content: '#b9dde5' },
+      { name: 'theme-color', content: '#FFFFFF' },
       { name: 'keywords', content: meta.keywords },
 
       { property: 'og:image', content: meta.logo },
@@ -94,47 +94,45 @@ export default {
     ]
   },
 
-  pwa: {
-    manifest: {
-      name: 'Teste Vivo - Frontend',
-      short_name: 'Teste Vivo - Frontend',
-      start_url: meta.url,
-      display: 'standalone',
-      background_color: '#fff',
-      description: meta.description,
-      icons: [
-        {
-          src: '/favicon-16x16.png',
-          sizes: '16x16',
-          type: 'image/png'
-        },
-        {
-          src: '/favicon-32x32.png',
-          sizes: '32x32',
-          type: 'image/png'
-        },
-        {
-          src: '/shortcut.png',
-          sizes: '64x64',
-          type: 'image/png'
-        },
-        {
-          src: '/apple-touch-icon.png',
-          sizes: '180x180',
-          type: 'image/png'
-        },
-        {
-          src: '/android-chrome-192x192.png',
-          sizes: '192x192',
-          type: 'image/png'
-        },
-        {
-          src: '/android-chrome-512x512.png',
-          sizes: '512x512',
-          type: 'image/png'
-        }
-      ]
-    }
+  manifest: {
+    name: 'Teste Vivo - Frontend',
+    short_name: 'Teste Vivo - Frontend',
+    start_url: meta.url,
+    display: 'standalone',
+    background_color: '#fff',
+    description: meta.description,
+    icons: [
+      {
+        src: '/favicon-16x16.png',
+        sizes: '16x16',
+        type: 'image/png'
+      },
+      {
+        src: '/favicon-32x32.png',
+        sizes: '32x32',
+        type: 'image/png'
+      },
+      {
+        src: '/shortcut.png',
+        sizes: '64x64',
+        type: 'image/png'
+      },
+      {
+        src: '/apple-touch-icon.png',
+        sizes: '180x180',
+        type: 'image/png'
+      },
+      {
+        src: '/android-chrome-192x192.png',
+        sizes: '192x192',
+        type: 'image/png'
+      },
+      {
+        src: '/android-chrome-512x512.png',
+        sizes: '512x512',
+        type: 'image/png'
+      }
+    ]
   },
 
   /*

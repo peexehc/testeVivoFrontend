@@ -1,5 +1,7 @@
 <template>
   <div class="main-component">
+    <main-nav />
+
     <div class="content">
       <!-- Router-view -->
       <transition name="fade" mode="out-in">
@@ -27,48 +29,14 @@
 </template>
 
 <script>
-import { mapActions } from 'vuex'
+import Navbar from '~/components/Navbar'
 
 export default {
-  data() {
-    return {
-      // Object to get the inner width and height of the screen
-      window: {
-        width: 0,
-        height: 0
-      }
-    }
-  },
-
-  created() {
-    if (process.browser) {
-      // Retrieve the inner width and height of the screen
-      // eslint-disable-next-line nuxt/no-globals-in-created
-      window.addEventListener('resize', this.handleResize)
-
-      setTimeout(() => {
-        // Trigger function
-        this.handleResize()
-      }, 10)
-    }
-  },
-
-  mounted() {
-    //
+  components: {
+    'main-nav': Navbar
   },
 
   methods: {
-    handleResize() {
-      this.window.width = window.innerWidth
-      this.window.height = window.innerHeight
-
-      this.updateSize(this.window)
-    },
-
-    ...mapActions({
-      updateSize: 'window/updateSize'
-    }),
-
     closeInstall() {
       const el = document.getElementById('appInstall')
 
@@ -111,7 +79,7 @@ body {
 ::-webkit-scrollbar-thumb {
   -webkit-border-radius: 0px;
   border-radius: 5px;
-  background: white;
+  background: var(--dark);
   -webkit-box-shadow: inset 0 0 5px rgba(0, 0, 0, 0.5);
   box-shadow: inset 0 0 5px rgba(0, 0, 0, 0.5);
 }
