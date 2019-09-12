@@ -18,7 +18,7 @@ export function createRouter() {
         component: Home
       },
       {
-        path: '/repositorio/:name',
+        path: '/:name',
         name: 'Repository',
         component: Repository
       }

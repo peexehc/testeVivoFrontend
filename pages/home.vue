@@ -3,7 +3,7 @@
     <div class="container-fluid wrap">
       <div v-for="repo in repositoryList" :key="repo.id" class="row repos">
         <div class="col-6 repo-name">
-          <router-link :to="{ path: `/repositorio/${repo.name}` }" tag="a">
+          <router-link :to="{ path: `/${repo.name}` }" tag="a">
             <div class="box">
               <p class="name m-0">{{ repo.name }}</p>
               <p v-if="repo.description !== null" class="desc m-0">
